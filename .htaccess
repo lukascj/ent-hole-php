@@ -1,0 +1,32 @@
+RewriteEngine on
+
+RewriteRule ^forms$ forms.php [L]
+RewriteRule ^browse$ browse.php [L]
+RewriteRule ^create$ create.php [L]
+
+RewriteRule ^types/?$ browse.php?types=on [L]
+RewriteRule ^type-([^/]+)/?$ browse.php?type=$1 [L]
+RewriteRule ^type-([^/]+)/([^/]+)/?$ item.php?type=$1&uid=$2 [L]
+RewriteRule ^type-([^/]+)/([^/]+)/reviews/?$ entry.php?type=$1&uid=$2&list=item-reviews [L]
+
+RewriteRule ^users$ browse.php?users [L]
+RewriteRule ^user-([^/]+)/?$ profile.php?uid=$1 [L]
+RewriteRule ^user-([^/]+)/entry/?$ entry.php?user_uid=$1 [QSA,L]
+RewriteRule ^user-([^/]+)/ratings/?$ entry.php?user_uid=$1&list=ratings [L]
+RewriteRule ^user-([^/]+)/reviews/?$ entry.php?user_uid=$1&list=reviews [L]
+RewriteRule ^user-([^/]+)/diary/?$ entry.php?user_uid=$1&list=logs [L]
+
+RewriteRule ^search/([^/]+)/?$ browse.php?search=$1 [QSA,L]
+RewriteRule ^search-users/([^/]+)/?$ browse.php?users&search=$1 [QSA,L]
+
+RewriteRule ^popular/?$ browse.php?popular [QSA,L]
+RewriteRule ^recent-activity/?$ browse.php?recent [QSA,L]
+
+RewriteRule ^genres/?$ browse.php?genres=on [L]
+RewriteRule ^genre-([^/]+)/?$ browse.php?genre=$1 [L]
+RewriteRule ^tags/?$ browse.php?tags=on [L]
+RewriteRule ^tag-([^/]+)/?$ browse.php?tag=$1 [L]
+RewriteRule ^crew/?$ browse.php?crew=on [L]
+RewriteRule ^artist-([^/]+)/?$ browse.php?artist=$1 [L]
+RewriteRule ^collections/?$ browse.php?collections=on [L]
+RewriteRule ^collection-([^/]+)/?$ browse.php?collection=$1 [L]
