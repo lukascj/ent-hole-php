@@ -2,27 +2,27 @@
 // namespace EntHole;
 
 class Router {
-    protected $routes = [];
+    protected $_routes = [];
     
-    private function addRoute($route, $controller, $action, $method) {
-        $this->routes[$method][$route] = ['controller' => $controller, 'action' => $action];
+    private function add_route($route, $controller, $action, $method) {
+        $this->_routes[$method][$route] = ['controller' => $controller, 'action' => $action];
     }
 
     public function get($route, $controller, $action) {
-        $this->addRoute($route, $controller, $action, "GET");
+        $this->add_route($route, $controller, $action, "GET");
     }
 
     public function post($route, $controller, $action) {
-        $this->addRoute($route, $controller, $action, "POST");
+        $this->add_route($route, $controller, $action, "POST");
     }
 
     public function dispatch() {
         $uri = strtok($_SERVER['REQUEST_URI'], '?');
         $method =  $_SERVER['REQUEST_METHOD'];
 
-        if (array_key_exists($uri, $this->routes[$method])) {
-            $controller = $this->routes[$method][$uri]['controller'];
-            $action = $this->routes[$method][$uri]['action'];
+        if(array_key_exists($uri, $this->_routes[$method])) {
+            $controller = $this->_routes[$method][$uri]['controller'];
+            $action = $this->_routes[$method][$uri]['action'];
 
             $controller = new $controller();
             $controller->$action();

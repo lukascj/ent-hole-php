@@ -84,7 +84,7 @@ function fetchRecent($conn, $user_id) { // model
     return $recent;
 }
 
-function renderListRecent($recent) { // view
+/* function renderListRecent($recent) { // view
 
     $list = '';
     foreach($recent as $r) {
@@ -122,7 +122,7 @@ function renderListRecent($recent) { // view
 
     echo $html;
     return;
-}
+} */
 
 function fetchPopular($conn, $factor) { // model
 

@@ -1,13 +1,13 @@
 <?php
     session_start(); // Tillåt sessions.
-    include '../src/core/Conn.php'; // Databaskoppling.
+    include '../src/core/conn.php'; // Databaskoppling.
     include '../src/core/Router.php';
     include '../src/core/utility.php'; // Generella metoder.
 
     include '../src/models/User.php'; // User model.
     include '../src/controllers/UserController.php'; // User controller.
 
-    if(!$_SESSION['loggedIn']) { // Om ej inloggad.
+    if(!$_SESSION['is_logged_in']) { // Om ej inloggad.
         header('Location: /auth');
         exit; 
     }
@@ -15,35 +15,20 @@
     // Request för simpel routing.
     $request = $_SERVER['REQUEST_URI'];
 
-    if(preg_match('/\/users\/[\w-]+/', $request, $matches)) {
-        $userModel = new User($conn);
-        $userController = new UserController($userModel);
-        $userController->renderProfile($matches[1]);
-    } elseif($request === '/users/create') {
-        $userModel = new User($conn);
-        $userController = new UserController($userModel);
-        $usersController->createUser();
+    if($request === '/users/create') {
+        $user_model = new User($conn);
+        $user_controller = new UserController($user_model);
+        $user_controller->createUser();
+    } elseif(preg_match('/\/users\/[\w-]+/', $request, $matches)) {
+        $user_model = new User($conn);
+        $user_controller = new UserController($user_model);
+        $user_controller->renderProfile($matches[1]);
     } else {
         http_response_code(404);
         echo "404 Not Found";
     }
 
-    if(preg_match('/\/', $request, $matches)) {
-        $homeController->showHome();
-    }
-
-
-    if(isset($_SESSION['user-id'])) {
-        // Om du är inloggad.
-        $recent = fetchRecent($conn, $_SESSION['user-id']);
-        // Om funktionen hittar aktivitet från de du följer.
-        renderListRecent($recent);
-    } 
-    if(isset($_GET['popular'])) {
-        $popular = fetchPopular($conn, $_GET['popular']);
-        renderListPopular($popular, $_GET['popular']);
-    } else {
-        $popular = fetchPopular($conn, 'week');
-        renderListPopular($popular, 'week');
+    if(preg_match('/\/', $request)) {
+        $home_controller->showHome();
     }
 ?> 

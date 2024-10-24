@@ -2,17 +2,17 @@
 include 'Controller.php';
 
 class HomeController extends Controller {
-    private $entModel;
-    private $socialModel;
+    private $_entModel;
+    private $_userModel;
 
-    public function __construct($entModel, $socialModel) {
-        $this->entModel = $entModel;
-        $this->socialModel = $socialModel;
+    public function __construct($entModel, $userModel) {
+        $this->_entModel = $entModel;
+        $this->_userModel = $userModel;
     }
 
-    public function renderHome($clientUser) {
-        $popular  = $this->entModel->getPopular();
-        $activity  = $this->socialModel->getActivity($clientUser);
+    public function render_home($clientUser) {
+        $popular  = $this->_entModel->fetch_popular();
+        $activity  = $this->_userModel->fetch_activity($clientUser);
         ob_start();
         $this->render('home'); // Ladda in main view-content.
         $content = ob_get_clean(); // Spara content inför layout.

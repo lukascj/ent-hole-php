@@ -1,2 +1,2 @@
-Start: "docker-compose up"
+Start: "docker-compose up"\
 Stop: "docker-compose down"
