@@ -4,7 +4,7 @@
 /* ~~GENERAL: TAG CHANGES~~ */
 
 
-
+/*
 * {
     margin: 0;
     padding: 0;
@@ -40,16 +40,9 @@ body {
     background: linear-gradient(180deg, var(--global-color-2-1) 0%, var(--global-color-2-2) 300px);
     min-height: 100vh;
     padding-bottom: 100px;
-    /* letter-spacing: 1.5px; */
 }
-
 a { text-decoration: none; }
 ul, ol, li { list-style-type: none; }
-
-/* ::-webkit-scrollbar {
-    width: 8px;
-} */
-
 input[type=text], 
 input[type=password] {
     box-sizing: border-box;
@@ -69,19 +62,16 @@ input[type=password] {
     border: var(--global-border-width-2) solid var(--global-color-1);
     border-radius: var(--global-border-radius);
 }
-
 input[type=text]::placeholder, 
 input[type=password]::placeholder {
     text-transform: uppercase;
 }
-
 input[type=checkbox] {
     accent-color: var(--global-color-1);
 }
 input[type=checkbox]:hover {
     cursor: pointer;
 }
-
 select {
     height: calc(var(--global-poster-width) * 0.25);
 
@@ -102,8 +92,8 @@ select * {
     font: unset;
 }
 select:hover {
-    cursor: pointer;
-}
+    cursor: pointer; 
+} */
 
 
 

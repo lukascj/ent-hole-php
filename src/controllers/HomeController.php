@@ -1,5 +1,5 @@
 <?php
-include 'Controller.php';
+include_once 'Controller.php';
 
 class HomeController extends Controller {
     private $_entModel;
@@ -14,8 +14,8 @@ class HomeController extends Controller {
         $popular  = $this->_entModel->fetch_popular();
         $activity  = $this->_userModel->fetch_activity($clientUser);
         ob_start();
-        $this->render('home'); // Ladda in main view-content.
-        $content = ob_get_clean(); // Spara content inför layout.
+        $this->render('home'); // Ladda in main view-content
+        $content = ob_get_clean(); // Spara content inför layout
         include 'views/layout.php'; // Ladda in layout
     }
 }

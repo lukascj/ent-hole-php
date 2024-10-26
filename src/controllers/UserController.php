@@ -1,5 +1,5 @@
 <?php
-include 'Controller.php';
+include_once 'Controller.php';
 
 class UserController extends Controller {
     private $userModel;
@@ -8,7 +8,7 @@ class UserController extends Controller {
         $this->userModel = $userModel;
     }
 
-    public function renderProfile($handle) {
+    public function render_profile($handle) {
         $user = $this->userModel->find($handle);
         ob_start();
         $this->render('profile'); // Ladda in main view-content.
@@ -16,7 +16,7 @@ class UserController extends Controller {
         include 'views/layout.php'; // Ladda in layout
     }
 
-    public function createUser() {
+    public function create_user() {
         // Hantera angivet formulär.
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->userModel->save($_POST);

@@ -5,7 +5,7 @@ INSERT INTO types (id, name, handle) VALUES
 (3, 'Season', 'season'),
 (4, 'Episode', 'episode'),
 (5, 'Game', 'game'),
-(6, 'Book', 'book'),
+(6, 'Book', 'book');
 
 -- GENRES:
 
@@ -26,7 +26,7 @@ INSERT INTO genres (id, name, handle) VALUES
 (13, 'Mystery', 'mystery'),
 (14, 'Romance', 'romance'),
 (15, 'Sci-Fi', 'sci-fi'),
-(16, 'Thriller', 'thriller'),
+(16, 'Thriller', 'thriller');
 
 -- Främst för spel:
 INSERT INTO genres (id, name, handle) VALUES
@@ -96,6 +96,29 @@ INSERT INTO tags (id, name, handle) VALUES
 (54, 'Love', 'love'),
 (55, 'Detectives', 'detectives'),
 (56, 'Body Horror', 'body-horror'),
+(81, 'Drugs', 'drugs'),
+(82, 'Alcohol', 'alcohol'),
+(83, 'Violence', 'violence'),
+(84, 'Kids', 'kids'),
+(85, 'Planes', 'planes'),
+(86, 'Boats', 'boats'),
+(87, 'Wilderness', 'wilderness'),
+(88, 'Exotic Locations', 'exotic-locations'),
+(89, 'Medieval', 'medieval'),
+(90, 'Knights', 'knights'),
+(91, 'Mythology', 'mythology'),
+(92, 'Norse Mythology', 'norse-mythology'),
+(93, 'Greek Mythology', 'greek-mythology'),
+(94, 'Egyptian Mythology', 'egyptian-mythology'),
+(95, 'Christian Mythology', 'christian-mythology'),
+(96, 'Arthurian', 'arthurian'),
+(97, 'Shakespeare', 'shakespeare'),
+(98, 'High-School', 'high-school'),
+(99, 'College', 'college'),
+(100, 'Epic', 'epic');
+
+-- Främst för spel:
+INSERT INTO tags (id, name, handle) VALUES
 (57, 'Platformer', 'platformer'),
 (58, 'Collectathon', 'collectathon'),
 (59, 'Metroidvania', 'metroidvania'),
@@ -119,27 +142,7 @@ INSERT INTO tags (id, name, handle) VALUES
 (77, 'Tower Defence', 'tower-defence'),
 (78, 'Construction', 'construction'),
 (79, 'Randomly Generated', 'randomly-generated'),
-(80, 'Party', 'party'),
-(81, 'Drugs', 'drugs'),
-(82, 'Alcohol', 'alcohol'),
-(83, 'Violence', 'violence'),
-(84, 'Kids', 'kids'),
-(85, 'Planes', 'planes'),
-(86, 'Boats', 'boats'),
-(87, 'Wilderness', 'wilderness'),
-(88, 'Exotic Locations', 'exotic-locations'),
-(89, 'Medieval', 'medieval'),
-(90, 'Knights', 'knights'),
-(91, 'Mythology', 'mythology'),
-(92, 'Norse Mythology', 'norse-mythology'),
-(93, 'Greek Mythology', 'greek-mythology'),
-(94, 'Egyptian Mythology', 'egyptian-mythology'),
-(95, 'Christian Mythology', 'christian-mythology'),
-(96, 'Arthurian', 'arthurian'),
-(97, 'Shakespeare', 'shakespeare'),
-(98, 'High-School', 'high-school'),
-(99, 'College', 'college'),
-(100, 'Epic', 'epic');
+(80, 'Party', 'party');
 
 -- ARTIST ROLES:
 INSERT INTO artist_roles (id, name, handle) VALUES
@@ -161,7 +164,7 @@ INSERT INTO artist_roles (id, name, handle) VALUES
 (16, 'Book Editor', 'book-editor');
 
 -- ARTISTS:
-INSERT INTO artists (id, name, handle, desc) VALUES
+INSERT INTO artists (id, name, handle, bio) VALUES
 (1, 'Bryan Cranston', 'bryan-cranston', ''),
 (2, 'Bob Odenkirk', 'bob-odenkirk', ''),
 (3, 'Aaron Paul', 'aaron-paul', '');
@@ -172,13 +175,13 @@ INSERT INTO collections (id, name, handle) VALUES
 
 -- ENTS:
 
-@desc_1 = "A chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine with a former student in order to secure his family's future.";
-@desc_2 = "Five high school students meet in Saturday detention and discover how they have a lot more in common than they thought.";
-@desc_3 = "In town for a job interview, a young woman arrives at her Airbnb late at night only to find that it has been mistakenly double-booked.";
-@desc_4 = "The trials and tribulations of criminal lawyer Jimmy McGill in the years leading up to his fateful run-in with Walter White and Jesse Pinkman.";
-@desc_5 = "A young Viking prince is on a quest to avenge his father's murder.";
+SET @desc_1 = "A chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine with a former student in order to secure his family's future.";
+SET @desc_2 = "Five high school students meet in Saturday detention and discover how they have a lot more in common than they thought.";
+SET @desc_3 = "In town for a job interview, a young woman arrives at her Airbnb late at night only to find that it has been mistakenly double-booked.";
+SET @desc_4 = "The trials and tribulations of criminal lawyer Jimmy McGill in the years leading up to his fateful run-in with Walter White and Jesse Pinkman.";
+SET @desc_5 = "A young Viking prince is on a quest to avenge his father's murder.";
 
-INSERT INTO ents (id, type, name, handle, date, desc, tagline, length) VALUES
+INSERT INTO ents (id, type, name, handle, date, `desc`, tagline, length) VALUES
 (1, 'series', 'Breaking Bad', 'breaking-bad-2008', '2008-01-20', @desc_1, 'Change [the] Equation.', 5),
 (2, 'film', 'The Breakfast Club', 'breakfast-club-1985', '1985-07-05', @desc_2, 'They only met once, but it changed their lives forever.', 97),
 (3, 'film', 'Barbarian', 'barbarian-2022', '2022-09-09', @desc_3, 'Come for a night. Stay forever.', 103),
@@ -201,7 +204,7 @@ INSERT INTO ents_genres (ent_id, genre_id, number) VALUES
 (5, 8, 3);   -- Northman: Drama
 
 -- CREW ROLE ASSOC:
-INSERT INTO ents_crew (ent_id, artist_id, role_id, subrole, number) VALUES
+INSERT INTO ents_artists (ent_id, artist_id, role_id, subrole, number) VALUES
 (1, 1, 1, 'Walter White', 1),  -- Breaking Bad: Bryan Cranston as Walter White
 (1, 3, 1, 'Jesse Pinkman', 2), -- Breaking Bad: Aaron Paul as Jesse Pinkman
 (1, 2, 1, 'Saul Goodman', 3),  -- Breaking Bad: Bob Odenkirk as Saul Goodman

@@ -1,7 +1,7 @@
 <?php
 require_once("universal_functions.php");
 
-function fetchRecent($conn, $user_id) { // model
+/* function fetchRecent($conn, $user_id) { // model
     $stmt = mysqli_stmt_init($conn);
     $sql = "SELECT `to_id` FROM `follow` WHERE `from_id` = ?;";
 
@@ -82,7 +82,7 @@ function fetchRecent($conn, $user_id) { // model
     }
 
     return $recent;
-}
+} */
 
 /* function renderListRecent($recent) { // view
 
