@@ -3,7 +3,7 @@
     <div class="list-outer">
         <div class="arrow-btn l"></div>
         <ul class="list-inner">
-            <?php if(count($activity) > 0): foreach($activity as $a): extract($a) ?>
+            <?php if(isset($activity) && count($activity) > 0): foreach($activity as $a): extract($a) ?>
                 <li class="activity-wrap" data-ent-name="<?= htmlspecialchars($ent_name); ?>" data-ent-date="<?= htmlspecialchars($ent_date); ?>">
                     <div class="main">
                         <div class="user-wrap">

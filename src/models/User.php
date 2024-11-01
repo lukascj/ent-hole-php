@@ -26,17 +26,11 @@ class User {
             entries.id AS entry_id, 
             entries.like AS `like`, 
             entries.rating AS rating, 
-            entries.item_id AS item_id, 
-            entries.log_date AS log_date, 
-            entries.review_date AS review_date, 
-            IF(
-                review_date IS NULL, log_date, IF(
-                    log_date IS NULL, review_date, IF(
-                        log_date >= review_date, log_date, review_date
-                    )
-                )
-            ) AS main_date, 
-            entries.text AS review_text, 
+            entries.ent_id AS ent_id, 
+            entries.entry_created_date AS `date`,
+            entries.review_created_date AS review_date, 
+            entries.entry_edited_date AS edited_date,
+            entries.review_text AS review_text, 
             entries.rewatch AS rewatch, 
             entries.spoilers AS spoilers,  
             ents.handle AS ent, 
@@ -44,11 +38,11 @@ class User {
             ents.name AS ent_title, 
             ents.date AS ent_date 
         FROM entries 
-        INNER JOIN ents ON ents.id = entries.item_id 
+        INNER JOIN ents ON ents.id = entries.ent_id 
         INNER JOIN follows ON follows.to_id = entries.user_id 
         INNER JOIN users ON users.id = follows.to_id 
         WHERE follows.to_id IN (SELECT to_id FROM follows WHERE from_id = ?)
-        ORDER BY main_date DESC 
+        ORDER BY `date` DESC 
         LIMIT ?";
 
         $stmt = $this->_conn->prepare($query);

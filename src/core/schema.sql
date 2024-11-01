@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS user_favorites (
     number int NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS follow ( -- För att kolla vem som följer vem
+CREATE TABLE IF NOT EXISTS follows ( -- För att kolla vem som följer vem
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     from_id int NOT NULL, -- Den som följer
     to_id int NOT NULL -- Den som följs
@@ -137,14 +137,14 @@ CREATE TABLE IF NOT EXISTS entries (
     id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_id int NOT NULL,
     ent_id int NOT NULL,
-    entry_created_date datetime, -- TODO: Användarens första recension på detta datumet har YYYY-MM-DD 00:01:00, och det andra har YYYY-MM-DD 00:02:00, osv...
+    entry_created_date datetime NOT NULL, -- TODO: Användarens första recension på detta datumet har YYYY-MM-DD 00:01:00, och det andra har YYYY-MM-DD 00:02:00, osv...
     entry_edited_date datetime,
     review_created_date datetime,
-    review_edited_date datetime,
+    diary_watched_date datetime,
     `like` bit DEFAULT 0 NOT NULL,
     rating float DEFAULT NULL,
     rewatch bit,
-    text text,
+    review_text text,
     spoilers bit
 );
 
