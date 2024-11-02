@@ -1,7 +1,7 @@
 <?php
 
-// kollar om något fält är tomt
-function emptyInput($array) {
+// Kollar om något fält är tomt
+/* function emptyInput($array) {
     foreach($array as $element) {
         if(empty($element)) {
             return true;
@@ -10,22 +10,22 @@ function emptyInput($array) {
     return false;
 }
 
-// kollar om användarnamnet använder godkända tecken
+// Kollar om användarnamnet använder godkända tecken
 function invalidUid($username) {
     return (!preg_match("/^[a-zA-Z0-9]*$/", $username));
 }
 
-// validerar emailen
+// Validerar emailen
 function invalidEmail($email) {
     return (!filter_var($email, FILTER_VALIDATE_EMAIL));
 }
 
-// kollar så att lösenorden matchar
+// Kollar så att lösenorden matchar
 function pwdMatch($pwd, $pwdre) {
     return ($pwd !== $pwdre);
 }
 
-// kollar om användarnamnet (redan) existerar
+// Kollar om användarnamnet (redan) existerar
 function uidExists($conn, $username, $email) {
 
     $sql = "SELECT * 
@@ -50,9 +50,9 @@ function uidExists($conn, $username, $email) {
     } else {
         return false;
     }
-}
+} */
 
-// skapar användaren
+/* // Skapar användaren
 function createUser($conn, $name, $email, $uid, $pwd) {
     $sql = 
     "INSERT INTO `users` (`name`, `email`, `uid`, `pwd`) 
@@ -69,10 +69,10 @@ function createUser($conn, $name, $email, $uid, $pwd) {
     mysqli_stmt_bind_param($stmt, "ssss", $name, $email, $uid, $hashed_pwd);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-}
+} */
 
-// loggar in användaren
-function loginUser($conn, $uid_or_email, $pwd) {
+// Loggar in användaren
+/* function loginUser($conn, $uid_or_email, $pwd) {
 
     $tmp = uidExists($conn, $uid_or_email, $uid_or_email);
     if(!$tmp) {
@@ -95,9 +95,9 @@ function loginUser($conn, $uid_or_email, $pwd) {
         $_SESSION['user-id'] = $user['id'];
         $_SESSION['user-uid'] = $user['uid'];
     }
-}
+} */
 
-function submitSignup($conn, $name, $email, $uid, $pwd, $pwdre) {
+/* function submitSignup($conn, $name, $email, $uid, $pwd, $pwdre) {
 
     if(emptyInput([$name, $email, $uid, $pwd, $pwdre]) !== false) {
         header("location: /forms?error=emptyinput");
@@ -124,9 +124,9 @@ function submitSignup($conn, $name, $email, $uid, $pwd, $pwdre) {
     loginUser($conn, $uid, $pwd);
     header("location: /");
     return;
-}
+} */
 
-function submitLogin($conn, $uid_or_email, $pwd) {
+/* function submitLogin($conn, $uid_or_email, $pwd) {
 
     if(emptyInput([$uid_or_email, $pwd]) !== false) {
         header("location: /forms?error=emptyinput");
@@ -136,9 +136,9 @@ function submitLogin($conn, $uid_or_email, $pwd) {
     loginUser($conn, $uid_or_email, $pwd);
     header("location: /");
     return;
-}
+} */
 
-function renderForms() {
+/* function renderForms() {
 
     $html = 
     '<button type="button" name="form_choice" value="login" class="button">Log in</button>
@@ -157,4 +157,4 @@ function renderForms() {
 
     echo $html;
     return;
-}
+} */

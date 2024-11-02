@@ -11,7 +11,7 @@
     include_once './controllers/HomeController.php'; // Home controller
 
     /* if(!$_SESSION['isLoggedIn']) { // Om ej inloggad
-        header('Location: /auth');
+        header('location: /auth');
         exit; 
     } */
 
@@ -19,7 +19,9 @@
     $request = $_SERVER['REQUEST_URI'];
     $splitReq = explode('/', $request);
 
-    if($splitReq[0] === 'users') {
+    print_r($splitReq);
+
+    if($splitReq[1] === 'users') {
         $userModel = new User($conn);
         $userController = new UserController($userModel);
         if($request === '/users/create') {

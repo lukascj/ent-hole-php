@@ -50,8 +50,17 @@ class User {
         return $stmt->fetch();
     }
 
-    public function save($data) {
-        $stmt = $this->_conn->prepare("INSERT INTO users (name, email, pwd) VALUES (?, ?, ?)");
+    // Skapar användare i databasen
+    public function create($data) {
+        $stmt = $this->_conn->prepare("INSERT INTO users (`name`, email, pwd) VALUES (?, ?, ?)");
         $stmt->execute([$data['name'], $data['email'], password_hash($data['pwd'], PASSWORD_BCRYPT)]);
+    }
+
+    // Kollar om användarnamnet är taget
+    public function handle_taken($handle) {
+        $query = "SELECT EXISTS(SELECT * FROM users WHERE handle = ?)";
+        $stmt = $this->_conn->prepare($query);
+        $stmt->execute([$handle]);
+        return $stmt->fetch();
     }
 }

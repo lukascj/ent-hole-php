@@ -1,4 +1,4 @@
-<script>
+<!--<script>
 
 $(document).ready(function() {
     $('.button[name="form_choice"]').click(function() {
@@ -15,4 +15,4 @@ $(document).ready(function() {
     });
 });
 
-</script>
+</script>-->
