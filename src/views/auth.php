@@ -22,17 +22,17 @@
     <?= $signupForm ?>
 </section>
 
-<script>
-$(document).ready(function() {
-    $('.button.form-switch').click(function() {
-        const formSection = $('section#form');
-        if($('#login-form').length == 1) {
-            formSection.html('<?= $loginForm ?>');
-            $(this).text('Switch to login');
-        } else if($('signup-form').length == 1) {
-            formSection.html('<?= $signupForm ?>');
-            $(this).text('Switch to signup');
-        }
+<script type="module">
+    $(document).ready(function() {
+        $('.button.form-switch').click(function() {
+            const formSection = $('section#form');
+            if($('#login-form').length == 1) {
+                formSection.html('<?= $loginForm ?>');
+                $(this).text('Switch to login');
+            } else if($('signup-form').length == 1) {
+                formSection.html('<?= $signupForm ?>');
+                $(this).text('Switch to signup');
+            }
+        });
     });
-});
 </script>

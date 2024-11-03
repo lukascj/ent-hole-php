@@ -4,13 +4,12 @@ services:
     container_name: php-apache-container
     volumes:
       - ./src:/var/www/html
+      - ./.env:/var/www/html/.env
     ports:
       - "8080:80"
     networks:
       - app-network
-    # Väldigt irriterande att detta command måste köras 
-    # varje gång jag bygger containern, tar tid, men hittar ingen annan lösning.
-    command: bash -c "docker-php-ext-install mysqli && docker-php-ext-enable mysqli && apache2-foreground"
+    command: bash -c "a2enmod rewrite && docker-php-ext-install mysqli && docker-php-ext-enable mysqli && apache2-foreground"
   mysql:
     image: mysql:latest
     container_name: ${DB_CONTAINER}

@@ -1,6 +1,6 @@
 <?php
 include_once 'Controller.php';
-include_once '../core/utility.php';
+include_once './core/utility.php';
 
 class UserController extends Controller {
     private $_userModel;

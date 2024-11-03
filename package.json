@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "sass": "^1.80.4"
+    "sass": "^1.80.4",
+    "jquery": "^3.7.1"
   }
 }
