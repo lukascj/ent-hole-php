@@ -1,30 +1,42 @@
 <?php
     session_start(); // Tillåt sessions
-
     include_once './core/conn.php'; // Databaskoppling
-    //include './src/core/Router.php';
-    include_once './core/utility.php'; // Generella metoder
+    include_once './core/utility.php'; // Generella funktioner
+    include_once './core/router.php'; // Router klass
+    include_once './models/Ent.php';
+    include_once './models/User.php';
+    include_once './controllers/UserController.php';
+    include_once './controllers/HomeController.php';
 
-    include_once './models/Ent.php'; // Ent model.
-    include_once './models/User.php'; // User model.
-    include_once './controllers/UserController.php'; // User controller
-    include_once './controllers/HomeController.php'; // Home controller
-
-    /* if(!$_SESSION['isLoggedIn']) { // Om ej inloggad
-        header('location: /auth');
-        exit; 
-    } */
+    // Ladda environment-variabler
+    load_env();
+    // Koppla till databasen
+    $conn = create_conn();
 
     // Request för simpel routing
-    $request = $_SERVER['REQUEST_URI'];
-    $splitReq = explode('/', $request);
+    $requestPath = $_SERVER['REQUEST_URI'];
+    $splitPath = explode('/', $request);
+    $requestMethod = $_SERVER['REQUEST_METHOD'];
 
-    print_r($splitReq);
+    print_r($splitPath);
 
-    if($splitReq[1] === 'users') {
+    if($requestPath != '/auth') {
+        // Gå till inlogg-formulär om ej inloggad
+        if(!isset($_SESSION['isLoggedIn']) || !$_SESSION['isLoggedIn']) {
+            header('location: /auth?error=not-logged-in');
+            exit; 
+        }
+    }
+    if($requestPath === '/') {
+        $userModel = new User($conn);
+        $entModel = new Ent($conn);
+        $homeController = new HomeController($entModel, $userModel);
+        $homeController->render_home(['id'=>1, 'handle'=>'user1']);
+    }
+    if($splitPath[1] === 'users') {
         $userModel = new User($conn);
         $userController = new UserController($userModel);
-        if($request === '/users/create') {
+        if($requestPath === '/users/create') {
             $userController->create_user();
         } elseif(preg_match('/\/users\/[\w-]+/', $request, $matches)) {
             $userController->render_profile($matches[1]);
@@ -34,10 +46,5 @@
         }
     }
 
-    if($request === '/') {
-        $userModel = new User($conn);
-        $entModel = new Ent($conn);
-        $homeController = new HomeController($entModel, $userModel);
-        $homeController->render_home(['id'=>1, 'handle'=>'user1']);
-    }
+
 ?> 

@@ -484,3 +484,6 @@ img/
 
 # Sensitive environment variables
 .env
+
+# SQL (schema + populate)
+sql/

@@ -13,16 +13,16 @@ services:
     command: bash -c "docker-php-ext-install mysqli && docker-php-ext-enable mysqli && apache2-foreground"
   mysql:
     image: mysql:latest
-    container_name: mysql-container
+    container_name: ${DB_CONTAINER}
     ports:
       - "3307:3306"
     networks:
       - app-network
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: mydatabase
-      MYSQL_USER: user
-      MYSQL_PASSWORD: userpassword
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     networks:

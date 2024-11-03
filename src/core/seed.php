@@ -43,7 +43,7 @@ class Seed {
             }
 
             // SQL från extern fil
-            $sql = file_get_contents('schema.sql');
+            $sql = file_get_contents('sql/schema.sql');
 
             // Kör flera queries
             if($this->_conn->multi_query($sql)) {
@@ -64,7 +64,7 @@ class Seed {
 
     public function populate() {
         try {
-            $sql = file_get_contents('inserts.sql');
+            $sql = file_get_contents('sql/inserts.sql');
 
             if($this->_conn->multi_query($sql)) {
                 do {
