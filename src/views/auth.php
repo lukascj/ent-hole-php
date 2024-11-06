@@ -20,18 +20,29 @@
 <section id="form">
     <h2>Sign up</h2>
     <?= $signupForm ?>
+    <?= $loginForm ?>
 </section>
 
-<script type="module">
+<script>
     $(document).ready(function() {
-        $('.button.form-switch').click(function() {
-            const formSection = $('section#form');
-            if($('#login-form').length == 1) {
-                formSection.html('<?= $loginForm ?>');
+        const loginForm = $('#login-form');
+        const signupForm = $('#signup-form');
+        let currentForm = 'signup';
+        const headerElem = $('section#form > h2');
+        loginForm.css('display', 'none');
+        $(document).on('click', '.button.form-switch', function() {
+            if(currentForm == 'signup') {
+                signupForm.css('display', 'none');
+                loginForm.css('display', 'block');
+                headerElem.text('Log in');
+                currentForm = 'login';
                 $(this).text('Switch to login');
-            } else if($('signup-form').length == 1) {
-                formSection.html('<?= $signupForm ?>');
+            } else if(currentForm == 'login') {
+                signupForm.css('display', 'block');
+                loginForm.css('display', 'none');
+                headerElem.text('Sign up');
                 $(this).text('Switch to signup');
+                currentForm = 'signup';
             }
         });
     });

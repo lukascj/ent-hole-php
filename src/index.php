@@ -23,7 +23,7 @@
     if($request['path'] != '/auth') {
         // Gå till inlogg-formulär om ej inloggad
         if(!isset($_SESSION['is-logged-in']) || !$_SESSION['is-logged-in']) {
-            header('location: /auth?error=not-logged-in');
+            header('location: /auth');
             exit; 
         }
     }
