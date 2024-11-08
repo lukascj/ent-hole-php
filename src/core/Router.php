@@ -1,33 +1,25 @@
 <?php
-// namespace EntHole;
 
 class Router {
     protected $_routes = [];
     
-    private function add_route($route, $controller, $action, $method) {
-        $this->_routes[$method][$route] = ['controller' => $controller, 'action' => $action];
+    private function add_route($route, $method, $action) {
+        $this->_routes[$method][$route] = ['action' => $action];
     }
 
-    public function get($route, $controller, $action) {
-        $this->add_route($route, $controller, $action, "GET");
+    public function get($route, $action) {
+        $this->add_route($route, "GET", $action);
     }
 
-    public function post($route, $controller, $action) {
-        $this->add_route($route, $controller, $action, "POST");
+    public function post($route, $action) {
+        $this->add_route($route, "POST", $action);
     }
 
-    public function dispatch() {
-        $uri = strtok($_SERVER['REQUEST_URI'], '?');
-        $method =  $_SERVER['REQUEST_METHOD'];
-
-        if(array_key_exists($uri, $this->_routes[$method])) {
-            $controller = $this->_routes[$method][$uri]['controller'];
-            $action = $this->_routes[$method][$uri]['action'];
-
-            $controller = new $controller();
-            $controller->$action();
-        } else {
-            throw new \Exception("No route found for URI: $uri");
+    public function dispatch($request) {
+        if(!array_key_exists($request['path'], $this->_routes[$request['method']])) {
+            throw new Exception("No route found for URI: $request[path]");
         }
+        $func = $this->_routes[$request['method']][$request['path']]['action'];
+        call_user_func($func, $request);
     }
 }

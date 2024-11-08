@@ -1,15 +1,20 @@
 <?php
 class User {
-    private $_conn;
+    protected $_conn;
     
     public function __construct($conn) {
         $this->_conn = $conn; // Inject databaskoppling.
     }
 
     public function fetch($handle) {
-        $stmt = $this->_conn->prepare("SELECT * FROM users WHERE handle = ?");
-        $stmt->execute([$handle]);
-        return $stmt->fetch();
+        /* $stmt = $this->_conn->prepare("SELECT * FROM users WHERE handle = ?");
+        $stmt->bind_param('s', $handle);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc(); */
+        $query = "SELECT * FROM users WHERE handle = ?";
+        return $this->_conn->
+            execute_query($query, [$handle])->
+            fetch_assoc();
     }
 
     public function fetch_by_id($id) {
@@ -51,16 +56,22 @@ class User {
     }
 
     // Skapar användare i databasen
-    public function create($data) {
-        $stmt = $this->_conn->prepare("INSERT INTO users (`name`, email, pwd) VALUES (?, ?, ?)");
-        $stmt->execute([$data['name'], $data['email'], password_hash($data['pwd'], PASSWORD_BCRYPT)]);
+    public function create($params) {
+        $query = "INSERT INTO users (`name`, email, handle, pwd) VALUES (?, ?, ?, ?)";
+        $stmt = $this->_conn->prepare($query);
+        $params = [
+            $params['name'], 
+            $params['email'], 
+            $params['handle'], 
+            password_hash($params['pwd'], PASSWORD_BCRYPT)
+        ];
+        $stmt->execute($params);
     }
 
     // Kollar om användarnamnet är taget
     public function handle_taken($handle) {
         $query = "SELECT EXISTS(SELECT * FROM users WHERE handle = ?)";
-        $stmt = $this->_conn->prepare($query);
-        $stmt->execute([$handle]);
-        return $stmt->fetch();
+        $result = ($this->_conn->execute_query($query, [$handle])->fetch_row())[0];
+        return boolval($result);
     }
 }

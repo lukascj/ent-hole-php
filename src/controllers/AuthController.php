@@ -1,6 +1,6 @@
 <?php
 class AuthController extends Controller {
-    // private $_userModel;
+    // protected $_userModel;
 
     /* public function __construct($userModel) {
         $this->_userModel = $userModel;

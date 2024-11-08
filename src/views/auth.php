@@ -1,11 +1,11 @@
 <?php ob_start(); ?>
-<form action="login" method="post" id="login-form">
+<form action="login" method="post" id="login-form" style="display: none;">
     <input type="text" name="handle/email" placeholder="Handle or Email..">
     <input type="password" name="pwd" placeholder="Password..">
     <button type="submit" name="submit-login" class="button">Log in</button>
 </form>
 <?php $loginForm = ob_get_clean(); ob_start(); ?>
-<form action="signup" method="post" id="signup-form">
+<form action="signup" method="post" id="signup-form" style="display: block;">
     <input type="text" name="name" placeholder="Name...">
     <input type="text" name="email" placeholder="Email..">
     <input type="text" name="handle" placeholder="Handle..">
@@ -29,7 +29,6 @@
         const signupForm = $('#signup-form');
         let currentForm = 'signup';
         const headerElem = $('section#form > h2');
-        loginForm.css('display', 'none');
         $(document).on('click', '.button.form-switch', function() {
             if(currentForm == 'signup') {
                 signupForm.css('display', 'none');

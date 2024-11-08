@@ -2,8 +2,8 @@
 include_once 'Controller.php';
 
 class HomeController extends Controller {
-    private $_entModel;
-    private $_userModel;
+    protected $_entModel;
+    protected $_userModel;
 
     public function __construct($entModel, $userModel) {
         $this->_entModel = $entModel;
