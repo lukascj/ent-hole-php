@@ -15,7 +15,7 @@
     // Koppla till databasen
     $conn = create_conn();
 
-    // Samla request-variabler att använda
+    // Samla request-variabler som ska användas
     $request['uri'] = $_SERVER['REQUEST_URI'];
     $parsedUri = parse_url($request['uri']);
     $request['path'] = $parsedUri['path'];
@@ -76,7 +76,9 @@
             if($request['path'] === '/users') {
 
                 // Browse users
-                $browseController = new BrowseController();
+                $userModel = new User($conn);
+                $entModel = new Ent($conn);
+                $browseController = new BrowseController($entModel, $userModel);
                 $browseController->render_browse('users');
                 exit;
 
@@ -90,6 +92,14 @@
                 exit;
 
             }
+        } elseif($request['path'] === '/browse') {
+
+            $userModel = new User($conn);
+            $entModel = new Ent($conn);
+            $browseController = new BrowseController($entModel, $userModel);
+            $browseController->render_browse();
+            exit;
+
         } elseif($request['path'] === '/logout') {
 
             unset($_SESSION['user-id']);
