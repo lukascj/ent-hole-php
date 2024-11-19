@@ -11,10 +11,15 @@ class HomeController extends Controller {
     }
 
     public function render_home($clientUser) {
+        
         $popular = $this->_entModel->fetch_popular();
         $activity = $this->_userModel->fetch_activity($clientUser);
+
         ob_start();
-        $this->render('home'); // Ladda in main view-content
+        $this->render('home', compact(
+            'popular',
+            'activity'
+        )); // Ladda in main view-content
         $content = ob_get_clean(); // Spara content inför layout
         include 'views/layout.php'; // Ladda in layout
     }

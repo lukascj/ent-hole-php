@@ -26,35 +26,36 @@ class Ent {
         $query = "SELECT 
                 ents.*, 
                 COUNT(interactions.user_id) AS popularity 
-            FROM 
-                ents 
-            LEFT JOIN (
-                SELECT 
-                    ent_id, 
-                    user_id, 
-                    MAX(`date`) AS latest_interaction 
-                FROM (
+            FROM ents 
+            LEFT JOIN 
+                (
                     SELECT 
-                        entries.entry_created_date AS `date`, 
-                        entries.user_id AS user_id, 
-                        entries.ent_id AS ent_id 
+                        interactions.ent_id, 
+                        interactions.user_id, 
+                        MAX(interactions.`date`) AS latest_interaction 
                     FROM 
-                        entries 
-                    UNION 
-                    SELECT 
-                        ratings.created_date AS `date`, 
-                        ratings.user_id AS user_id, 
-                        ratings.ent_id AS ent_id 
-                    FROM 
-                        ratings
-                ) AS interactions 
-                WHERE 
-                    interactions.date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') 
-                GROUP BY 
-                    ent_id, user_id
-            ) AS interactions ON interactions.ent_id = ents.id 
+                        (
+                            SELECT 
+                                entries.entry_created_date AS `date`, 
+                                entries.user_id AS user_id, 
+                                entries.ent_id AS ent_id 
+                            FROM 
+                                entries 
+                            UNION 
+                            SELECT 
+                                ratings.created_date AS `date`, 
+                                ratings.user_id AS user_id, 
+                                ratings.ent_id AS ent_id 
+                            FROM 
+                                ratings
+                        ) AS interactions 
+                    WHERE 
+                        interactions.date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') 
+                    GROUP BY 
+                        interactions.ent_id, interactions.user_id
+                ) AS interactions ON interactions.ent_id = ents.id 
             GROUP BY ents.id 
-            ORDER BY popularity DESC 
+            ORDER BY popularity DESC, `name` DESC
             LIMIT ?";
 
         $params = [$dateStr, $lim];
@@ -62,7 +63,9 @@ class Ent {
             FROM ents
             ORDER BY `name`";
 
-        return $this->_conn->execute_query($query)->fetch_all(MYSQLI_ASSOC);
+        $result = $this->_conn->
+            execute_query($query)->fetch_all(MYSQLI_ASSOC);
+        return $result;
     }
 
     public function fetch_popular_in_genre($genre, $by = "week", $lim = 19) {
@@ -81,51 +84,51 @@ class Ent {
                 ents.*, 
                 COUNT(interactions.user_id) AS popularity 
             FROM 
-                ents 
-            LEFT JOIN (
-                SELECT 
-                    ent_id, 
-                    user_id, 
-                    MAX(`date`) AS latest_interaction 
-                FROM (
+                (
+                    SELECT ents.*
+                    FROM ents
+                    INNER JOIN
+                        ents_genres ON ent_id = ents.id
+                    INNER JOIN
+                        genres ON ents_genres.genre_id = genres.id
+                    WHERE genres.handle = ?
+                    ORDER BY ents.`name`
+                ) AS ents 
+            LEFT JOIN 
+                (
                     SELECT 
-                        entries.entry_created_date AS `date`, 
-                        entries.user_id AS user_id, 
-                        entries.ent_id AS ent_id 
+                        all_interactions.ent_id, 
+                        all_interactions.user_id, 
+                        MAX(all_interactions.`date`) AS latest_interaction 
                     FROM 
-                        entries 
-                    UNION 
-                    SELECT 
-                        ratings.created_date AS `date`, 
-                        ratings.user_id AS user_id, 
-                        ratings.ent_id AS ent_id 
-                    FROM 
-                        ratings
-                ) AS interactions 
-                WHERE 
-                    interactions.date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') 
-                GROUP BY 
-                    ent_id, user_id
-            ) AS interactions ON interactions.ent_id = ents.id 
-            INNER JOIN
-                ents_genres ON ent_id = ents.id
-            INNER JOIN
-                genres ON ents_genres.genre_id
-            ORDER BY popularity DESC 
+                        (
+                            SELECT 
+                                entries.entry_created_date AS `date`, 
+                                entries.user_id AS user_id, 
+                                entries.ent_id AS ent_id 
+                            FROM entries 
+                            UNION 
+                            SELECT 
+                                ratings.created_date AS `date`, 
+                                ratings.user_id AS user_id, 
+                                ratings.ent_id AS ent_id 
+                            FROM ratings
+                        ) AS all_interactions 
+                    WHERE 
+                        all_interactions.date > STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s') 
+                    GROUP BY 
+                        all_interactions.ent_id, all_interactions.user_id
+                ) AS interactions ON interactions.ent_id = ents.id 
+            GROUP BY ents.id 
+            ORDER BY popularity DESC, `name` DESC 
             LIMIT ?";
             
-        $params = [$dateStr, $lim];
-        $query = "SELECT *
-            FROM ents
-            INNER JOIN
-                ents_genres ON ent_id = ents.id
-            INNER JOIN
-                genres ON ents_genres.genre_id
-            WHERE genres.handle = ?
-            ORDER BY ents.`name`";
-        $params = [$genre];
+        $params = [$genre, $dateStr, $lim];
 
-        return $this->_conn->execute_query($query, $params)->fetch_all(MYSQLI_ASSOC);
+        $result = $this->_conn->
+            execute_query($query, $params)->fetch_all(MYSQLI_ASSOC);
+        print_r($result);
+        return $result;
     }
 
     public function fetch_highest_rated($lim = 19) {
